@@ -1,7 +1,8 @@
 "use client";
-import { LucideIcon, Sidebar } from "lucide-react"; // Add this import statement
+import { BarChart, List, LucideIcon, Sidebar } from "lucide-react"; // Add this import statement
 import { Home, Pencil, School, Settings } from "lucide-react";
 import { SidebarItem } from "./SidebarItem";
+import { usePathname } from "next/navigation";
 
 const guestRoutes = [
   {
@@ -18,7 +19,7 @@ const guestRoutes = [
   },
   {
     icon: School,
-    href: "/appoinment",
+    href: "/tutoring",
     label: "Tutoring",
     pro: false,
   },
@@ -30,8 +31,24 @@ const guestRoutes = [
   },
 ];
 
+const adminRoutes = [
+  {
+    icon: List,
+    label: "Courses",
+    href: "/admin/courses",
+  },
+  {
+    icon: BarChart,
+    label: "Analytics",
+    href: "/admin/analytics",
+  },
+];
+
 export const SidebarRoutes = () => {
-  const routes = guestRoutes;
+  const pathname = usePathname();
+
+  const isAdmin = pathname?.includes("/admin");
+  const routes = isAdmin ? adminRoutes : guestRoutes;
 
   return (
     <div className="flex flex-col h-full w-full">

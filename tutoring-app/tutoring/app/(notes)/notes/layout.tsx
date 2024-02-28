@@ -1,10 +1,10 @@
-import { NotesNavbar } from "@/components/notes/NotesNavbar";
-import { Sidebar } from "@/components/notes/Sidebar";
+import { Sidebar } from "@/components/global/Sidebar";
+import { Navbar } from "@/components/global/Navbar";
 
 const NotesLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="h-full">
-      <NotesNavbar />
+      <Navbar />
       <div className="hidden md:flex mt-16 w-20 flex-col fixed inset-y-0">
         <Sidebar />
       </div>
