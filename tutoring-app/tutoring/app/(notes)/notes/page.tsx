@@ -1,6 +1,10 @@
-import { NotesNavbar } from "@/components/notes/NotesNavbar";
+import { SearchInput } from "../../../components/notes/SearchInput";
 
 const NotesPage = () => {
-  return <div className="flex items-center justify-center">Notes Page</div>;
+  return (
+    <div className="p-4 space-y-2 h-full">
+      <SearchInput />
+    </div>
+  );
 };
 export default NotesPage;
