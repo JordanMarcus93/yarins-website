@@ -1,4 +1,4 @@
-import { SearchInput } from "../../../components/notes/SearchInput";
+import { SearchInput } from "../../../components/global/SearchInput";
 
 const NotesPage = () => {
   return (

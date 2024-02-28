@@ -5,14 +5,14 @@ import { Poppins } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ModeToggle } from "../mode-toggle";
 import { MobileSidebar } from "../global/MobileSidebar";
-import { NavbarRoutes } from "../global/NavbarRoutes";
+import { NavbarRoutes } from "./NavbarRoutes";
 
 const font = Poppins({
   subsets: ["latin"],
   weight: "600",
 });
 
-export const NotesNavbar = () => {
+export const Navbar = () => {
   return (
     <div className="fixed w-full h-16 z-50 flex justify-between items-center py-2 px-4 border-b border-primary/10 bg-secondary">
       <div className="flex items-center">
