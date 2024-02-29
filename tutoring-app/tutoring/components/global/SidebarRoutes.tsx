@@ -1,5 +1,5 @@
 "use client";
-import { BarChart, List, LucideIcon, Sidebar } from "lucide-react"; // Add this import statement
+import { BarChart, List, LucideIcon, Plus, Sidebar } from "lucide-react"; // Add this import statement
 import { Home, Pencil, School, Settings } from "lucide-react";
 import { SidebarItem } from "./SidebarItem";
 import { usePathname } from "next/navigation";
@@ -36,6 +36,11 @@ const adminRoutes = [
     icon: List,
     label: "Courses",
     href: "/admin/courses",
+  },
+  {
+    icon: Plus,
+    label: "Create",
+    href: "/admin/create",
   },
   {
     icon: BarChart,
