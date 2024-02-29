@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
+import { ToastProvider } from "@/components/providers/toaster-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,8 +20,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn("bg-secondary",inter.className)}>
+      <body className={cn("bg-secondary", inter.className)}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ToastProvider />
           {children}
         </ThemeProvider>
       </body>

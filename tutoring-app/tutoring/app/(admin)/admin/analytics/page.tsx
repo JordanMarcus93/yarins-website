@@ -2,7 +2,7 @@ import { Navbar } from "@/components/global/Navbar";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const CoursesPage = () => {
+const AnalyticsPage = () => {
   return (
     <div className="p-6">
       <Link href="/admin/create">
@@ -12,4 +12,4 @@ const CoursesPage = () => {
   );
 };
 
-export default CoursesPage;
+export default AnalyticsPage;
