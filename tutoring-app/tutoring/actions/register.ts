@@ -1,7 +1,7 @@
 "use server";
 
 import * as z from "zod";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { RegisterSchema } from "@/schemas";
 import { db } from "@/lib/db";
 import { getUserByEmail } from "@/data/user";
@@ -19,7 +19,6 @@ export const Register = async (values: z.infer<typeof RegisterSchema>) => {
 
   // Confirm if user already exists
   const existingUser = await getUserByEmail(email);
-
 
   if (existingUser) {
     return { error: "This email already exists" };
