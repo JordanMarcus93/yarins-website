@@ -1,5 +1,7 @@
 // This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Any time changes are made to the schema, the following commands must be run in the terminal:
+// 1. npx prisma generate
+// 2. npx prisma db push
 
 datasource db {
   provider     = "mysql"
@@ -8,7 +10,13 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
+}
+
+enum UserRole {
+  ADMIN
+  USER
 }
 
 model User {
@@ -19,6 +27,7 @@ model User {
   university    String?
   image         String?
   password      String?
+  role          UserRole  @default(USER)
   accounts      Account[]
 }
 
@@ -60,12 +69,15 @@ model Course {
   categoryId String?
   category   Category? @relation(fields: [categoryId], references: [id])
 
+  chapters    Chapter[]
   attachments Attachment[]
+  purchases   Purchase[]
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt()
 
   @@index([categoryId])
+  @@fulltext([title])
 }
 
 model Attachment {
@@ -77,7 +89,75 @@ model Attachment {
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt()
 
   @@index([courseId])
+}
+
+model Chapter {
+  id          String  @id @default(uuid())
+  title       String  @db.Text
+  description String? @db.Text
+  videoUrl    String? @db.Text
+  position    Int
+  isPublished Boolean @default(false)
+  isFree      Boolean @default(false)
+
+  muxData  MuxData?
+  courseId String
+  course   Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  userProgress UserProgress[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  @@index([courseId])
+}
+
+model MuxData {
+  id         String  @id @default(uuid())
+  assetId    String
+  playbackId String?
+
+  chapterId String  @unique
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+}
+
+model UserProgress {
+  id     String @id @default(uuid())
+  userId String
+
+  chapterId String
+  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  isCompleted Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt()
+
+  @@unique([userId, chapterId])
+  @@index([chapterId])
+}
+
+model Purchase {
+  id       String @id @default(uuid())
+  userId   String
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  @@index([courseId])
+}
+
+model StripeCustomer {
+  id               String   @id @default(uuid())
+  userId           String   @unique
+  stripeCustomerId String   @unique
+  email            String?
+  name             String?
+  image            String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt()
 }
