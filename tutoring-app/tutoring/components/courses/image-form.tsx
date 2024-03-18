@@ -90,7 +90,7 @@ export const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
         ) : (
           <div className="relative aspect-video mt-2">
             <Image
-              src={initialData?.imageUrl}
+              src={initialData?.imageUrl || "/placeholder.svg"}
               alt="Upload"
               fill
               className="object-cover rounded-md"
@@ -100,14 +100,33 @@ export const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
 
       {isEditing && (
         <div>
-          <FileUpload
-            endpoint="courseImage"
-            onChange={(url) => {
-              if (url) {
-                onSubmit({ imageUrl: url });
-              }
-            }}
-          />
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-8 pb-10"
+            >
+              <FormField
+                name="imageUrl"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col items-center justify-center space-y-4 col-span-2">
+                    <FormControl>
+                      <FileUpload
+                        disabled={isSubmitting}
+                        onChange={field.onChange}
+                        imageUrl={field.value}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex items-center gap-x-2">
+                <Button type="submit" disabled={false}>
+                  Save
+                </Button>
+              </div>
+            </form>
+          </Form>
           <div className="text-xs text-muted-foreground mt-4">
             16:9 aspect ratio recommended
           </div>
